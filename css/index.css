@@ -1,0 +1,80 @@
+@import url('https://at.alicdn.com/t/c/font_4183246_k2zbz78izzb.css?spm=a313x.7781069.1998910419.53&file=font_4183246_k2zbz78izzb.css');
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #000;
+  color: #666;
+  text-align: center;
+}
+
+.container {
+  height: 420px;
+  overflow: hidden;
+  /* border: 2px solid #fff; */
+  margin-top: 40px;
+}
+.container ul {
+  /* border: 2px solid #fff; */
+  transition: 0.6s;
+  list-style: none;
+}
+.container li {
+  height: 30px;
+  /* border: 1px solid #fff; */
+  line-height: 30px;
+  transition: 0.2s;
+}
+.container li.active {
+  color: #fff;
+  /* font-size: ; */
+  transform: scale(1.2);
+}
+
+/* 播放器 */
+.footer {
+  height: 60px;
+  width: 100%;
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  background-color: rgb(136, 139, 138);
+}
+
+.player {
+  margin: 0 auto;
+  width: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-button {
+  display: inline-block;
+}
+button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+button[disabled] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+button:hover i {
+  color: #054a78;
+}
+.iconfont {
+  font-size: 40px;
+  color: #000;
+}
+/* 进度条 */
+.process {
+  height: 4px;
+  background-color: #000;
+  width: 500px;
+  margin-left: 10px;
+}

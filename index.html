@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>简易音乐播放器</title>
+    <link rel="shortcut icon" href="./assets/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/index.css" />
+  </head>
+  <body>
+    <!-- <audio controls src="./assets/difficult_scripts.mp3"></audio> -->
+    <div class="container">
+      <ul class="lrc-list"></ul>
+    </div>
+    <div class="footer">
+      <div class="player">
+        <div class="player-button">
+          <button onclick="preClick()" disabled class="pre">
+            <i class="iconfont icon-previous1"></i>
+          </button>
+          <button onclick="play()">
+            <i class="iconfont icon-bofang play"></i>
+          </button>
+          <button onclick="nextClcik()" class="next">
+            <i class="iconfont icon-next1"></i>
+          </button>
+        </div>
+        <div class="process"></div>
+      </div>
+    </div>
+    <script src="./js/data.js"></script>
+    <script src="./js/index.js"></script>
+  </body>
+</html>
