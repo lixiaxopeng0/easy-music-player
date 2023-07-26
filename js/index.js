@@ -5,8 +5,6 @@ let musicIndex = 0;
 let playStatus = 'zanting';
 let audio = new Audio(audioSrc[musicIndex]);
 
-// 播放音乐
-// let lrc = lrcList[musicIndex];
 /**
  * 解析歌词字符串
  * 得到一个歌词对象的数组
@@ -240,8 +238,8 @@ function play() {
 }
 // 初始化
 function init(musicIndex) {
-  if (musicIndex) {
-    musicIndex = 1;
+  if (musicIndex >= lrcList.length - 1) {
+    musicIndex = lrcList.length - 1;
   } else {
     musicIndex = 0;
   }
