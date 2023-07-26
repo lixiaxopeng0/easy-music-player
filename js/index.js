@@ -4,6 +4,7 @@ let audioSrc = ['./assets/difficult_scripts.mp3', './assets/bare_face.mp3'];
 let musicIndex = 0;
 let playStatus = 'zanting';
 let audio = new Audio(audioSrc[musicIndex]);
+
 // 播放音乐
 // let lrc = lrcList[musicIndex];
 /**
@@ -49,8 +50,13 @@ let doms = {
   pre: document.querySelector('.pre'),
   next: document.querySelector('.next'),
   play: document.querySelector('.play'),
+  progress: document.querySelector('.progress'),
+  progressBar: document.querySelector('.progress-bar'),
+  progressCircle: document.querySelector('.progress-circle'),
+  progressBg: document.querySelector('.progress-bg'),
 };
-
+// 进度条宽度
+const progerssWidth = doms.progress.clientWidth;
 /**
  * 计算出，在当前播放器播放到第几秒的情况下
  * lrcData数组中，应该高亮显示的歌词下标
@@ -90,6 +96,15 @@ let containerHeight = doms.container.clientHeight;
 let liHeight = doms.ul.children[0].clientHeight;
 // 最大偏移量
 let maxOffset = doms.ul.clientHeight - containerHeight;
+// 末尾
+function ending() {
+  if (audio.currentTime === audio.duration) {
+    audio.pause();
+    doms.play.classList.remove('icon-zanting');
+    doms.play.classList.add('icon-bofang');
+    playStatus = 'zanting';
+  }
+}
 /**
  * 设置 ul 元素的偏移量
  */
@@ -103,6 +118,8 @@ function setOffset() {
     offset = maxOffset;
   }
   doms.ul.style.transform = `translateY(-${offset}px)`;
+  const x = audio.currentTime / audio.duration * progerssWidth;
+  progressPosition(x);
   // 去掉之前的 active 样式
   let li = doms.ul.querySelector('.active');
   if (li) {
@@ -113,16 +130,88 @@ function setOffset() {
   if (li) {
     li.classList.add('active');
   }
+  ending();
 }
 doms.audio.addEventListener('timeupdate', setOffset);
 
+
 /**
- *
- * 重置样式
+ * 进度条
  */
+// 进度条位置
+const processX = doms.progress.getBoundingClientRect().x;
+const mouseDownHandler = e => {
+  doms.progress.addEventListener("mousemove", mouseMoveHandler);
+}
+
+// 进度条位置
+function progressPosition(x = 0) {
+  doms.progressBar.style.setProperty('--play-width', `${x}px`);
+  doms.progressCircle.style.setProperty('--play-width', `${x}px`);
+}
+/**
+ * 设置时长
+ * @params {Number} nowX 现在相对process位置
+ *  
+ */
+let timer = null;
+function audioTimeSet(nowX = 0) {
+  let currentTime = 0;
+  if (nowX) {
+    currentTime = audio.duration * (nowX / progerssWidth);
+  } else {
+    currentTime = 0;
+  }
+  audio.currentTime = currentTime;
+}
+
+// 进度条调整
+const handleProcess = (clientX = 0) => {
+ // 拖拽进度位置
+ let x = clientX - processX;
+ if (x > progerssWidth) {
+   x = progerssWidth;
+ }
+ if (x <= 0) {
+   x = 0;
+ }
+ audioTimeSet(x);
+ progressPosition(x);
+ ending();
+}
+const mouseMoveHandler = e => {
+  audio.pause();
+  clearTimeout(timer);
+  handleProcess(e.clientX);
+  timer = setTimeout(() => {
+    if (playStatus === 'bofang') {
+      audio.play();
+    }
+  }, 300)
+};
+
+window.addEventListener('mouseup', () => {
+  doms.progress.removeEventListener("mousemove", mouseMoveHandler);
+});
+doms.progressCircle.addEventListener('mousedown', mouseDownHandler);
+
+const progressBgClick = e => {
+  handleProcess(e.clientX);
+}
+// 进度条点击
+doms.progressBg.addEventListener('click', progressBgClick);
+doms.progressBar.addEventListener('click', progressBgClick);
+
+/**
+ * 
+ * 按键设置
+ */
+
+// 重置样式
 function reset() {
   doms.audio.removeEventListener('timeupdate', setOffset);
-
+  // 进度条样式重置
+  progressPosition(0);
   doms.ul.style.transform = `translateY(0px)`;
   doms.ul.innerHTML = null;
   // 去掉之前的 active 样式
@@ -149,7 +238,7 @@ function play() {
     audio.play();
   }
 }
-
+// 初始化
 function init(musicIndex) {
   if (musicIndex) {
     musicIndex = 1;
