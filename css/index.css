@@ -53,6 +53,7 @@ body {
 
 .player-button {
   display: inline-block;
+  margin-right: 10px;
 }
 button {
   background: transparent;
@@ -71,10 +72,49 @@ button:hover i {
   font-size: 40px;
   color: #000;
 }
+
+:root {
+  --progress-height: 4px;
+}
 /* 进度条 */
-.process {
-  height: 4px;
-  background-color: #000;
+.progress {
+  padding: 10px 0;
+  /* background: yellowgreen; */
+  position: relative;
+  cursor: pointer;
+}
+.progress-bg {
+  height: var(--progress-height);
+  background-color: #575656;
   width: 500px;
-  margin-left: 10px;
+}
+
+.progress-bar {
+  height: var(--progress-height);
+  background-color: #0c0c0c;
+  z-index: 1;
+  position: absolute;
+  width: var(--play-width);
+
+}
+
+/* .progress-bar-play {
+  width: var(--play-width);
+} */
+
+/* 滑块 */
+.progress-circle {
+  height: 12px;
+  width: 12px;
+  background: #0c0c0c;
+  position: absolute;
+  z-index: 2;
+  border-radius: 50%;
+  top: 6px;
+  display: block;
+  left: var(--play-width);
+}
+
+.progress:hover .progress-circle {
+  display: block;
 }
