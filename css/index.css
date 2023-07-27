@@ -63,7 +63,6 @@ button {
 
 button[disabled] {
   opacity: 0.5;
-  pointer-events: none;
 }
 button:hover i {
   color: #054a78;
